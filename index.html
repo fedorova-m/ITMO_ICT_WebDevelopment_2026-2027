@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        <link rel="canonical" href="https://fedorova-m.github.io/ITMO_ICT_WebDevelopment_2026-2027/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Лабораторная работа №1</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">Лабораторная работа №1</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#no1-" class="nav-link">Лабораторная работа №1. Сокеты и клиент-серверное взаимодействие</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#1-udp" class="nav-link">Практическое задание 1. Обмен сообщениями по UDP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2-tcp" class="nav-link">Практическое задание 2. Вычисления через TCP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3-html-http" class="nav-link">Практическое задание 3. Раздача HTML-страницы по HTTP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#4" class="nav-link">Практическое задание 4. Многопользовательский чат</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#5-getpost" class="nav-link">Практическое задание 5. Простой веб-сервер GET/POST</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_15" class="nav-link">Вывод</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="no1-">Лабораторная работа №1. Сокеты и клиент-серверное взаимодействие</h1>
+<h2 id="_1">Цель работы</h2>
+<p>Изучить принципы сокетного взаимодействия в вебе и научиться реализовывать базовую архитектуру клиент-сервер с использованием протоколов UDP, TCP и HTTP.</p>
+<hr />
+<h2 id="1-udp">Практическое задание 1. Обмен сообщениями по UDP</h2>
+<p>В первом задании реализованы клиентская и серверная части приложения с использованием протокола UDP.</p>
+<p>Клиент отправляет серверу сообщение:</p>
+<pre><code class="language-text">Hello, server
+</code></pre>
+<p>Сервер получает сообщение, выводит его в консоль и отправляет клиенту ответ:</p>
+<pre><code class="language-text">Hello, client
+</code></pre>
+<p>Для работы с UDP используется:</p>
+<pre><code class="language-python">socket.SOCK_DGRAM
+</code></pre>
+<h3 id="_2">Сервер</h3>
+<p>Сервер создаёт UDP-сокет, привязывает его к адресу <code>127.0.0.1</code> и порту <code>5000</code>, после чего ожидает сообщение от клиента с помощью <code>recvfrom()</code>.</p>
+<p>После получения сообщения сервер отправляет ответ клиенту с помощью <code>sendto()</code>.</p>
+<pre><code class="language-python">import socket
+
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 5000
+BUFFER_SIZE = 1024
+
+
+def main() -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as server_socket:
+        server_socket.bind((HOST, PORT))
+
+        print(f&quot;UDP-сервер запущен на {HOST}:{PORT}&quot;)
+        print(&quot;Ожидание сообщения от клиента...&quot;)
+
+        data, client_address = server_socket.recvfrom(BUFFER_SIZE)
+        message = data.decode(&quot;utf-8&quot;)
+
+        print(f&quot;Получено от клиента: {message}&quot;)
+
+        response = &quot;Hello, client&quot;
+        server_socket.sendto(response.encode(&quot;utf-8&quot;), client_address)
+
+        print(f&quot;Ответ отправлен клиенту: {response}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="_3">Клиент</h3>
+<p>Клиент создаёт UDP-сокет, отправляет сообщение <code>Hello, server</code>, затем ожидает ответ сервера и выводит его в консоль.</p>
+<pre><code class="language-python">import socket
+
+
+SERVER_HOST = &quot;127.0.0.1&quot;
+SERVER_PORT = 5000
+BUFFER_SIZE = 1024
+
+
+def main() -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as client_socket:
+        message = &quot;Hello, server&quot;
+
+        client_socket.sendto(
+            message.encode(&quot;utf-8&quot;),
+            (SERVER_HOST, SERVER_PORT),
+        )
+
+        print(f&quot;Отправлено серверу: {message}&quot;)
+
+        data, _ = client_socket.recvfrom(BUFFER_SIZE)
+        response = data.decode(&quot;utf-8&quot;)
+
+        print(f&quot;Получено от сервера: {response}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="_4">Результат работы</h3>
+<p>Сервер:</p>
+<pre><code class="language-text">UDP-сервер запущен на 127.0.0.1:5000
+Ожидание сообщения от клиента...
+Получено от клиента: Hello, server
+Ответ отправлен клиенту: Hello, client
+</code></pre>
+<p>Клиент:</p>
+<pre><code class="language-text">Отправлено серверу: Hello, server
+Получено от сервера: Hello, client
+</code></pre>
+<hr />
+<h2 id="2-tcp">Практическое задание 2. Вычисления через TCP</h2>
+<p>Во втором задании реализовано клиент-серверное приложение с использованием протокола TCP.</p>
+<p>Используется вариант 4 — вычисление площади параллелограмма.</p>
+<p>Площадь вычисляется по формуле:</p>
+<pre><code class="language-text">S = a * h
+</code></pre>
+<p>где <code>a</code> — основание параллелограмма, <code>h</code> — его высота.</p>
+<p>Для работы с TCP используется:</p>
+<pre><code class="language-python">socket.SOCK_STREAM
+</code></pre>
+<h3 id="_5">Сервер</h3>
+<p>Сервер принимает подключение клиента, получает основание и высоту, вычисляет площадь и отправляет результат обратно клиенту.</p>
+<pre><code class="language-python">import socket
+
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 5001
+BUFFER_SIZE = 1024
+
+
+def main() -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.bind((HOST, PORT))
+        server_socket.listen(1)
+
+        print(f&quot;TCP-сервер запущен на {HOST}:{PORT}&quot;)
+        print(&quot;Ожидание подключения клиента...&quot;)
+
+        connection, client_address = server_socket.accept()
+
+        with connection:
+            print(f&quot;Клиент подключён: {client_address}&quot;)
+
+            data = connection.recv(BUFFER_SIZE).decode(&quot;utf-8&quot;)
+            base, height = map(float, data.split())
+
+            print(f&quot;Получено основание: {base}&quot;)
+            print(f&quot;Получена высота: {height}&quot;)
+
+            area = base * height
+
+            connection.sendall(str(area).encode(&quot;utf-8&quot;))
+
+            print(f&quot;Площадь параллелограмма: {area}&quot;)
+            print(&quot;Результат отправлен клиенту.&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="_6">Клиент</h3>
+<p>Клиент запрашивает у пользователя основание и высоту, подключается к серверу и отправляет введённые значения.</p>
+<p>После этого клиент получает рассчитанную сервером площадь.</p>
+<pre><code class="language-python">import socket
+
+
+SERVER_HOST = &quot;127.0.0.1&quot;
+SERVER_PORT = 5001
+BUFFER_SIZE = 1024
+
+
+def main() -&gt; None:
+    base = float(input(&quot;Введите длину основания параллелограмма: &quot;))
+    height = float(input(&quot;Введите высоту параллелограмма: &quot;))
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
+        client_socket.connect((SERVER_HOST, SERVER_PORT))
+
+        print(&quot;Подключение к серверу установлено.&quot;)
+
+        message = f&quot;{base} {height}&quot;
+        client_socket.sendall(message.encode(&quot;utf-8&quot;))
+
+        data = client_socket.recv(BUFFER_SIZE)
+        area = data.decode(&quot;utf-8&quot;)
+
+        print(f&quot;Площадь параллелограмма: {area}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="_7">Результат работы</h3>
+<p>Клиент:</p>
+<pre><code class="language-text">Введите длину основания параллелограмма: 8
+Введите высоту параллелограмма: 5
+Подключение к серверу установлено.
+Площадь параллелограмма: 40.0
+</code></pre>
+<p>Сервер:</p>
+<pre><code class="language-text">TCP-сервер запущен на 127.0.0.1:5001
+Ожидание подключения клиента...
+Клиент подключён: ('127.0.0.1', ...)
+Получено основание: 8.0
+Получена высота: 5.0
+Площадь параллелограмма: 40.0
+Результат отправлен клиенту.
+</code></pre>
+<hr />
+<h2 id="3-html-http">Практическое задание 3. Раздача HTML-страницы по HTTP</h2>
+<p>В третьем задании реализован HTTP-сервер с использованием библиотеки <code>socket</code>.</p>
+<p>Сервер принимает запрос от браузера, загружает содержимое файла <code>index.html</code>, формирует HTTP-ответ и отправляет HTML-страницу клиенту.</p>
+<h3 id="_8">Сервер</h3>
+<pre><code class="language-python">import socket
+
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 8080
+BUFFER_SIZE = 4096
+
+
+def main() -&gt; None:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server_socket.bind((HOST, PORT))
+        server_socket.listen()
+
+        print(f&quot;HTTP-сервер запущен на {HOST}:{PORT}&quot;)
+        print(&quot;Откройте в браузере: http://127.0.0.1:8080&quot;)
+        print(&quot;Ожидание HTTP-запросов...&quot;)
+
+        while True:
+            client_socket, client_address = server_socket.accept()
+
+            with client_socket:
+                request = client_socket.recv(BUFFER_SIZE).decode(
+                    &quot;utf-8&quot;,
+                    errors=&quot;ignore&quot;,
+                )
+
+                if not request:
+                    continue
+
+                request_line = request.splitlines()[0]
+
+                print(f&quot;Подключён клиент: {client_address}&quot;)
+                print(f&quot;Получен запрос: {request_line}&quot;)
+
+                with open(&quot;index.html&quot;, &quot;rb&quot;) as html_file:
+                    body = html_file.read()
+
+                headers = (
+                    &quot;HTTP/1.1 200 OK\r\n&quot;
+                    &quot;Content-Type: text/html; charset=utf-8\r\n&quot;
+                    f&quot;Content-Length: {len(body)}\r\n&quot;
+                    &quot;Connection: close\r\n&quot;
+                    &quot;\r\n&quot;
+                ).encode(&quot;utf-8&quot;)
+
+                client_socket.sendall(headers + body)
+
+                print(&quot;HTML-страница отправлена клиенту.&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="html-">HTML-страница</h3>
+<p>Файл <code>index.html</code> содержит содержимое страницы, которое сервер отправляет браузеру.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Задание 3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Веб-сервер работает успешно&lt;/h1&gt;
+
+    &lt;div&gt;
+        HTML-страница получена с сервера, реализованного с помощью библиотеки socket
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="_9">Результат работы</h3>
+<p>Сервер:</p>
+<pre><code class="language-text">HTTP-сервер запущен на 127.0.0.1:8080
+Откройте в браузере: http://127.0.0.1:8080
+Ожидание HTTP-запросов...
+
+Подключён клиент: ('127.0.0.1', ...)
+Получен запрос: GET / HTTP/1.1
+HTML-страница отправлена клиенту.
+</code></pre>
+<p>В браузере отображается:</p>
+<pre><code class="language-text">Веб-сервер работает успешно
+
+HTML-страница получена с сервера, реализованного с помощью библиотеки socket
+</code></pre>
+<hr />
+<h2 id="4">Практическое задание 4. Многопользовательский чат</h2>
+<p>В четвёртом задании реализован многопользовательский чат с использованием TCP и библиотеки <code>threading</code>.</p>
+<p>Каждый пользователь запускает один и тот же файл <code>client.py</code>.</p>
+<p>После подключения пользователь вводит своё имя. Сервер хранит активные подключения и передаёт сообщения между пользователями.</p>
+<h3 id="_10">Сервер</h3>
+<pre><code class="language-python">import socket
+import threading
+
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 5002
+ENCODING = &quot;utf-8&quot;
+
+
+class ChatServer:
+    def __init__(self) -&gt; None:
+        self._clients: dict[socket.socket, str] = {}
+        self._clients_lock = threading.Lock()
+
+    def run(self) -&gt; None:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+            server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            server_socket.bind((HOST, PORT))
+            server_socket.listen()
+
+            print(f&quot;TCP-чат запущен на {HOST}:{PORT}&quot;)
+            print(&quot;Ожидание подключений...&quot;)
+
+            while True:
+                client_socket, client_address = server_socket.accept()
+
+                thread = threading.Thread(
+                    target=self._handle_client,
+                    args=(client_socket, client_address),
+                    daemon=True,
+                )
+                thread.start()
+
+    def _handle_client(
+        self,
+        client_socket: socket.socket,
+        client_address: tuple[str, int],
+    ) -&gt; None:
+        username = None
+
+        try:
+            reader = client_socket.makefile(
+                &quot;r&quot;,
+                encoding=ENCODING,
+                newline=&quot;\n&quot;,
+            )
+
+            username = reader.readline().strip()
+
+            with self._clients_lock:
+                self._clients[client_socket] = username
+
+            self._send(
+                client_socket,
+                f&quot;OK Добро пожаловать в чат, {username}!&quot;,
+            )
+
+            print(f&quot;Подключён пользователь {username}: {client_address}&quot;)
+
+            self._broadcast(
+                f&quot;[Система] Пользователь {username} вошёл в чат.&quot;,
+                exclude=client_socket,
+            )
+
+            for line in reader:
+                message = line.rstrip(&quot;\n&quot;)
+
+                if message == &quot;/exit&quot;:
+                    break
+
+                if not message:
+                    continue
+
+                print(f&quot;{username}: {message}&quot;)
+
+                self._broadcast(
+                    f&quot;{username}: {message}&quot;,
+                    exclude=client_socket,
+                )
+        finally:
+            with self._clients_lock:
+                if client_socket in self._clients:
+                    del self._clients[client_socket]
+
+            client_socket.close()
+
+            if username is not None:
+                print(f&quot;Пользователь {username} отключился.&quot;)
+                self._broadcast(
+                    f&quot;[Система] Пользователь {username} вышел из чата.&quot;
+                )
+
+    def _broadcast(
+        self,
+        message: str,
+        exclude: socket.socket | None = None,
+    ) -&gt; None:
+        with self._clients_lock:
+            recipients = [
+                client_socket
+                for client_socket in self._clients
+                if client_socket is not exclude
+            ]
+
+        for client_socket in recipients:
+            try:
+                self._send(client_socket, message)
+            except OSError:
+                pass
+
+    @staticmethod
+    def _send(client_socket: socket.socket, message: str) -&gt; None:
+        client_socket.sendall(f&quot;{message}\n&quot;.encode(ENCODING))
+
+
+if __name__ == &quot;__main__&quot;:
+    ChatServer().run()
+</code></pre>
+<h3 id="_11">Клиент</h3>
+<p>Клиент подключается к серверу, передаёт имя пользователя и запускает отдельный поток для получения входящих сообщений.</p>
+<pre><code class="language-python">import socket
+import threading
+
+
+SERVER_HOST = &quot;127.0.0.1&quot;
+SERVER_PORT = 5002
+ENCODING = &quot;utf-8&quot;
+
+
+class ChatClient:
+    def __init__(self) -&gt; None:
+        self._socket = socket.socket(
+            socket.AF_INET,
+            socket.SOCK_STREAM,
+        )
+        self._reader = None
+
+    def run(self) -&gt; None:
+        username = input(&quot;Введите имя пользователя: &quot;).strip()
+
+        self._socket.connect((SERVER_HOST, SERVER_PORT))
+        self._reader = self._socket.makefile(
+            &quot;r&quot;,
+            encoding=ENCODING,
+            newline=&quot;\n&quot;,
+        )
+
+        self._send(username)
+
+        response = self._reader.readline().rstrip(&quot;\n&quot;)
+
+        print(response.removeprefix(&quot;OK &quot;))
+        print(&quot;Введите сообщение.&quot;)
+        print(&quot;Для выхода из чата введите /exit&quot;)
+
+        receiver = threading.Thread(
+            target=self._receive_messages,
+            daemon=True,
+        )
+        receiver.start()
+
+        while True:
+            message = input()
+
+            if not message:
+                continue
+
+            self._send(message)
+
+            if message == &quot;/exit&quot;:
+                break
+
+        self._socket.close()
+
+    def _receive_messages(self) -&gt; None:
+        if self._reader is None:
+            return
+
+        try:
+            for line in self._reader:
+                message = line.rstrip(&quot;\n&quot;)
+
+                if message:
+                    print(message)
+        except OSError:
+            pass
+
+    def _send(self, message: str) -&gt; None:
+        self._socket.sendall(f&quot;{message}\n&quot;.encode(ENCODING))
+
+
+if __name__ == &quot;__main__&quot;:
+    ChatClient().run()
+</code></pre>
+<h3 id="_12">Результат работы</h3>
+<p>Пользователь Мария:</p>
+<pre><code class="language-text">Введите имя пользователя: Мария
+Добро пожаловать в чат, Мария!
+Введите сообщение.
+Для выхода из чата введите /exit
+[Система] Пользователь Дима вошёл в чат.
+</code></pre>
+<p>Пользователь Дима:</p>
+<pre><code class="language-text">Введите имя пользователя: Дима
+Добро пожаловать в чат, Дима!
+Введите сообщение.
+Для выхода из чата введите /exit
+</code></pre>
+<p>После выхода Димы:</p>
+<pre><code class="language-text">/exit
+</code></pre>
+<p>у Марии выводится:</p>
+<pre><code class="language-text">[Система] Пользователь Дима вышел из чата.
+</code></pre>
+<hr />
+<h2 id="5-getpost">Практическое задание 5. Простой веб-сервер GET/POST</h2>
+<p>В пятом задании реализован простой веб-сервер, который вручную обрабатывает HTTP-запросы <code>GET</code> и <code>POST</code>.</p>
+<p>Сервер позволяет вводить название дисциплины и оценку, сохранять полученные данные и отображать все оценки в виде HTML-страницы.</p>
+<p>Оценки группируются по дисциплине.</p>
+<p>Например:</p>
+<pre><code class="language-python">{
+    &quot;Математика&quot;: [&quot;4&quot;, &quot;5&quot;],
+    &quot;Русский&quot;: [&quot;5&quot;],
+    &quot;Физика&quot;: [&quot;5&quot;],
+}
+</code></pre>
+<h3 id="_13">Сервер</h3>
+<pre><code class="language-python">import html
+import socket
+from urllib.parse import parse_qs
+
+
+HOST = &quot;127.0.0.1&quot;
+PORT = 8081
+BUFFER_SIZE = 4096
+ENCODING = &quot;utf-8&quot;
+
+
+class GradeServer:
+    def __init__(self) -&gt; None:
+        self._grades: dict[str, list[str]] = {}
+
+    def run(self) -&gt; None:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+            server_socket.setsockopt(
+                socket.SOL_SOCKET,
+                socket.SO_REUSEADDR,
+                1,
+            )
+
+            server_socket.bind((HOST, PORT))
+            server_socket.listen()
+
+            print(f&quot;Веб-сервер запущен на {HOST}:{PORT}&quot;)
+            print(f&quot;Откройте в браузере: http://{HOST}:{PORT}&quot;)
+            print(&quot;Ожидание HTTP-запросов...&quot;)
+
+            while True:
+                client_socket, client_address = server_socket.accept()
+
+                with client_socket:
+                    request = self._receive_request(client_socket)
+
+                    if not request:
+                        continue
+
+                    print(f&quot;Подключён клиент: {client_address}&quot;)
+                    self._handle_request(client_socket, request)
+
+    def _receive_request(self, client_socket: socket.socket) -&gt; bytes:
+        request = b&quot;&quot;
+
+        while b&quot;\r\n\r\n&quot; not in request:
+            chunk = client_socket.recv(BUFFER_SIZE)
+
+            if not chunk:
+                return b&quot;&quot;
+
+            request += chunk
+
+        headers, body = request.split(b&quot;\r\n\r\n&quot;, 1)
+
+        content_length = 0
+
+        for line in headers.decode(ENCODING, errors=&quot;ignore&quot;).split(&quot;\r\n&quot;):
+            if line.lower().startswith(&quot;content-length:&quot;):
+                content_length = int(line.split(&quot;:&quot;, 1)[1].strip())
+
+        while len(body) &lt; content_length:
+            body += client_socket.recv(BUFFER_SIZE)
+
+        return headers + b&quot;\r\n\r\n&quot; + body
+
+    def _handle_request(
+        self,
+        client_socket: socket.socket,
+        request: bytes,
+    ) -&gt; None:
+        headers, body = request.split(b&quot;\r\n\r\n&quot;, 1)
+
+        header_text = headers.decode(ENCODING, errors=&quot;ignore&quot;)
+        request_line = header_text.split(&quot;\r\n&quot;)[0]
+
+        method, path, _ = request_line.split(&quot; &quot;, 2)
+
+        print(f&quot;Получен запрос: {method} {path}&quot;)
+
+        if path != &quot;/&quot;:
+            self._send_response(
+                client_socket,
+                &quot;404 Not Found&quot;,
+                self._build_error_page(&quot;Страница не найдена&quot;),
+            )
+            return
+
+        if method == &quot;GET&quot;:
+            self._send_response(
+                client_socket,
+                &quot;200 OK&quot;,
+                self._build_page(),
+            )
+            return
+
+        if method == &quot;POST&quot;:
+            self._handle_post(client_socket, body)
+            return
+
+    def _handle_post(
+        self,
+        client_socket: socket.socket,
+        body: bytes,
+    ) -&gt; None:
+        form_data = parse_qs(body.decode(ENCODING))
+
+        subject = form_data.get(&quot;subject&quot;, [&quot;&quot;])[0].strip()
+        grade = form_data.get(&quot;grade&quot;, [&quot;&quot;])[0].strip()
+
+        if subject not in self._grades:
+            self._grades[subject] = []
+
+        self._grades[subject].append(grade)
+
+        print(f&quot;Добавлена оценка: {subject} — {grade}&quot;)
+
+        self._send_redirect(client_socket)
+
+    def _build_page(self) -&gt; str:
+        rows = &quot;&quot;
+
+        if self._grades:
+            for subject, grades in self._grades.items():
+                rows += (
+                    &quot;&lt;tr&gt;&quot;
+                    f&quot;&lt;td&gt;{html.escape(subject)}&lt;/td&gt;&quot;
+                    f&quot;&lt;td&gt;{', '.join(html.escape(grade) for grade in grades)}&lt;/td&gt;&quot;
+                    &quot;&lt;/tr&gt;&quot;
+                )
+        else:
+            rows = '&lt;tr&gt;&lt;td colspan=&quot;2&quot;&gt;Оценок пока нет&lt;/td&gt;&lt;/tr&gt;'
+
+        return f'''
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Журнал оценок&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Журнал оценок&lt;/h1&gt;
+
+    &lt;h2&gt;Добавить оценку&lt;/h2&gt;
+
+    &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;
+        &lt;label&gt;
+            Дисциплина:
+            &lt;input type=&quot;text&quot; name=&quot;subject&quot; required&gt;
+        &lt;/label&gt;
+
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;label&gt;
+            Оценка:
+            &lt;input type=&quot;text&quot; name=&quot;grade&quot; required&gt;
+        &lt;/label&gt;
+
+        &lt;br&gt;&lt;br&gt;
+
+        &lt;button type=&quot;submit&quot;&gt;Добавить&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;h2&gt;Все оценки&lt;/h2&gt;
+
+    &lt;table border=&quot;1&quot; cellpadding=&quot;8&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Дисциплина&lt;/th&gt;
+            &lt;th&gt;Оценки&lt;/th&gt;
+        &lt;/tr&gt;
+        {rows}
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+'''
+
+    def _build_error_page(self, message: str) -&gt; str:
+        return f&quot;&lt;h1&gt;Ошибка&lt;/h1&gt;&lt;p&gt;{html.escape(message)}&lt;/p&gt;&quot;
+
+    def _send_response(
+        self,
+        client_socket: socket.socket,
+        status: str,
+        page: str,
+    ) -&gt; None:
+        body = page.encode(ENCODING)
+
+        headers = (
+            f&quot;HTTP/1.1 {status}\r\n&quot;
+            &quot;Content-Type: text/html; charset=utf-8\r\n&quot;
+            f&quot;Content-Length: {len(body)}\r\n&quot;
+            &quot;Connection: close\r\n&quot;
+            &quot;\r\n&quot;
+        ).encode(ENCODING)
+
+        client_socket.sendall(headers + body)
+
+    def _send_redirect(self, client_socket: socket.socket) -&gt; None:
+        response = (
+            &quot;HTTP/1.1 303 See Other\r\n&quot;
+            &quot;Location: /\r\n&quot;
+            &quot;Content-Length: 0\r\n&quot;
+            &quot;Connection: close\r\n&quot;
+            &quot;\r\n&quot;
+        )
+
+        client_socket.sendall(response.encode(ENCODING))
+
+
+if __name__ == &quot;__main__&quot;:
+    GradeServer().run()
+</code></pre>
+<h3 id="_14">Результат работы</h3>
+<p>После открытия страницы:</p>
+<pre><code class="language-text">Веб-сервер запущен на 127.0.0.1:8081
+Откройте в браузере: http://127.0.0.1:8081
+Ожидание HTTP-запросов...
+
+Получен запрос: GET /
+</code></pre>
+<p>После добавления оценок:</p>
+<pre><code class="language-text">Получен запрос: POST /
+Добавлена оценка: Математика — 4
+Получен запрос: GET /
+
+Получен запрос: POST /
+Добавлена оценка: Русский — 5
+Получен запрос: GET /
+
+Получен запрос: POST /
+Добавлена оценка: Физика — 5
+Получен запрос: GET /
+</code></pre>
+<p>На HTML-странице отображается:</p>
+<pre><code class="language-text">Журнал оценок
+
+Добавить оценку
+
+Дисциплина: [                ]
+Оценка:     [                ]
+
+[Добавить]
+
+Все оценки
+
+Дисциплина      Оценки
+Математика      4
+Русский         5
+Физика          5
+</code></pre>
+<p>При добавлении второй оценки для одной дисциплины она добавляется в ту же запись:</p>
+<pre><code class="language-text">Математика      4, 5
+Русский         5
+Физика          5
+</code></pre>
+<hr />
+<h2 id="_15">Вывод</h2>
+<p>В ходе лабораторной работы были изучены основные способы клиент-серверного взаимодействия с использованием сокетов.</p>
+<p>Были реализованы обмен сообщениями по UDP, вычисления через TCP, HTTP-сервер для раздачи HTML-страницы, многопользовательский TCP-чат с потоками и простой веб-сервер с обработкой GET- и POST-запросов.</p>
+<p>В процессе выполнения работы были использованы методы <code>bind()</code>, <code>listen()</code>, <code>accept()</code>, <code>connect()</code>, <code>sendto()</code>, <code>recvfrom()</code>, <code>sendall()</code> и <code>recv()</code>, а также библиотеки <code>socket</code> и <code>threading</code>.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2026-09-25 10:50:49.055035+00:00
+-->
