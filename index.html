@@ -8,7 +8,7 @@
         
         <link rel="canonical" href="https://fedorova-m.github.io/ITMO_ICT_WebDevelopment_2026-2027/">
         <link rel="shortcut icon" href="img/favicon.ico">
-        <title>Лабораторная работа №2</title>
+        <title>Лабораторная работа №3</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/fontawesome.min.css" rel="stylesheet">
         <link href="css/brands.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     <body class="homepage">
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">Лабораторная работа №2</a>
+                <a class="navbar-brand" href=".">Лабораторная работа №3</a>
 
                 <!-- Expanded navigation -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
@@ -53,37 +53,45 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#no2-django" class="nav-link">Лабораторная работа №2. Простой сайт на Django</a>
+            <li class="nav-item" data-bs-level="1"><a href="#laboratory-work-3-django-rest-framework-clinic-api" class="nav-link">Laboratory work 3. Django REST Framework clinic API</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Цель работы</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Индивидуальный вариант</a>
+            <li class="nav-item" data-bs-level="2"><a href="#goal" class="nav-link">Goal</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">Архитектура</a>
+            <li class="nav-item" data-bs-level="2"><a href="#variant-summary" class="nav-link">Variant summary</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">Модель данных</a>
+            <li class="nav-item" data-bs-level="2"><a href="#architecture" class="nav-link">Architecture</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#api-" class="nav-link">API-интерфейсы</a>
+            <li class="nav-item" data-bs-level="2"><a href="#data-model" class="nav-link">Data model</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">Клиентские интерфейсы</a>
+            <li class="nav-item" data-bs-level="2"><a href="#auth-djoser" class="nav-link">Auth (Djoser)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_7" class="nav-link">Разграничение прав</a>
+            <li class="nav-item" data-bs-level="2"><a href="#api-endpoints" class="nav-link">API endpoints</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_8" class="nav-link">Запуск</a>
+            <li class="nav-item" data-bs-level="2"><a href="#frontend-pages" class="nav-link">Frontend pages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#practice-31-32" class="nav-link">Practice 3.1 / 3.2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#run" class="nav-link">Run</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#postgresql-note" class="nav-link">PostgreSQL note</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -94,291 +102,302 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="no2-django">Лабораторная работа №2. Простой сайт на Django</h1>
-<p><strong>Студент:</strong> Фёдорова Мария<br />
-<strong>Группа:</strong> K3339<br />
-<strong>Вариант:</strong> 4 — Список туров туристической фирмы</p>
+<h1 id="laboratory-work-3-django-rest-framework-clinic-api">Laboratory work 3. Django REST Framework clinic API</h1>
+<p><strong>Student:</strong> Fedorova Maria<br />
+<strong>Group:</strong> K3339<br />
+<strong>Variant:</strong> 10 — Medical clinic</p>
 <hr />
-<h2 id="_1">Цель работы</h2>
-<p>Овладеть практическими навыками реализации web-сервисов средствами Django: модели данных, CRUD-интерфейсы, разграничение прав, PostgreSQL, оформление отчёта в MkDocs.</p>
+<h2 id="goal">Goal</h2>
+<p>Build a REST API with Django, Django REST Framework, Djoser token auth and PostgreSQL. Cover the clinic domain, analytical queries from the assignment, MkDocs documentation and a React client (same folder architecture as Lab 2).</p>
 <hr />
-<h2 id="_2">Индивидуальный вариант</h2>
-<p>Хранится информация о названии тура, турагентстве, описании тура, периоде проведения, условиях оплаты и стране направления.</p>
-<p>Реализованный функционал:</p>
+<h2 id="variant-summary">Variant summary</h2>
+<p>The system stores doctors, work schedules, cabinets, price-list services, patients (medical cards) and paid appointments. After each visit the patient pays for the service separately.</p>
+<p>Implemented operations:</p>
 <ol>
-<li>Регистрация новых пользователей.</li>
-<li>Просмотр и резервирование туров; пользователь может редактировать даты и удалять свои бронирования.</li>
-<li>Отзывы к турам: даты тура, текст, рейтинг (1–10), автор.</li>
-<li>Администратор подтверждает резервирование в Django-admin и в клиентской панели (<code>is_staff</code>).</li>
-<li>В клиентской части (для администратора) формируется таблица всех проданных туров по странам.</li>
+<li>User registration / login via <strong>Djoser</strong> (<code>/api/auth/</code>)</li>
+<li>CRUD for doctors, patients, cabinets, services, appointments</li>
+<li>Mark appointment as paid</li>
+<li>Analytical endpoints listed in the variant</li>
+<li>Staff report for doctors in a date range</li>
 </ol>
-<p>Дополнительно для максимального балла:</p>
-<ul>
-<li>стилизация интерфейса;</li>
-<li>пагинация списка туров;</li>
-<li>поиск, фильтрация по стране/агентству и сортировка;</li>
-<li>разграничение прав в клиентском интерфейсе по <code>is_staff</code>.</li>
-</ul>
 <hr />
-<h2 id="_3">Архитектура</h2>
-<p>Клиент-серверное приложение:</p>
+<h2 id="architecture">Architecture</h2>
 <table>
 <thead>
 <tr>
-<th>Слой</th>
-<th>Технологии</th>
+<th>Layer</th>
+<th>Stack</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Backend</td>
-<td>Django 6 + Django REST Framework, Token Authentication</td>
+<td>Django 6 + DRF + Djoser (Token)</td>
 </tr>
 <tr>
-<td>БД</td>
-<td>PostgreSQL (<code>tours_db</code>)</td>
+<td>Database</td>
+<td>PostgreSQL (<code>tours_db</code>, schema <code>clinic</code>)</td>
 </tr>
 <tr>
 <td>Frontend</td>
 <td>React (Vite) + axios + SCSS</td>
 </tr>
 <tr>
-<td>Admin</td>
-<td>Django-admin + отдельная React-страница для staff</td>
+<td>Docs</td>
+<td>MkDocs</td>
 </tr>
 </tbody>
 </table>
-<p>Структура проекта:</p>
-<pre><code class="language-text">Lr2/
-├── backend/          # Django-проект
-│   ├── config/       # settings, urls
-│   └── tours/        # модели, API, admin
-├── frontend/         # React-клиент
-└── docs/             # отчёт MkDocs
+<pre><code class="language-text">Lr3/
+├── backend/     # Django API (clinic app)
+├── frontend/    # React client
+├── practice/    # Practice 3.1 (cars ORM) + 3.2 (warriors DRF)
+└── docs/        # MkDocs report
 </code></pre>
 <hr />
-<h2 id="_4">Модель данных</h2>
-<h3 id="country">Country</h3>
-<p>Страна направления тура.</p>
+<h2 id="data-model">Data model</h2>
+<h3 id="doctor">Doctor</h3>
 <ul>
-<li><code>name</code> — уникальное название страны</li>
+<li>FIO, specialty, education, gender, birth date</li>
+<li>work_start / work_end, employment contract number and date</li>
+<li>related schedules (<code>related_name="schedules"</code>)</li>
 </ul>
-<h3 id="agency">Agency</h3>
-<p>Турагентство.</p>
+<h3 id="doctorschedule">DoctorSchedule</h3>
 <ul>
-<li><code>name</code> — название агентства</li>
+<li>weekday (0–6), <code>is_working</code></li>
 </ul>
-<h3 id="tour">Tour</h3>
-<p>Тур.</p>
+<h3 id="cabinet">Cabinet</h3>
 <ul>
-<li><code>name</code> — название</li>
-<li><code>agency</code> — FK → Agency</li>
-<li><code>country</code> — FK → Country</li>
-<li><code>description</code> — описание</li>
-<li><code>start_date</code>, <code>end_date</code> — период проведения</li>
-<li><code>payment_terms</code> — условия оплаты</li>
-<li><code>price</code> — стоимость</li>
+<li>number, work hours, responsible doctor, internal phone</li>
 </ul>
-<h3 id="reservation">Reservation</h3>
-<p>Бронирование тура пользователем.</p>
+<h3 id="service">Service</h3>
 <ul>
-<li><code>user</code> — FK → User</li>
-<li><code>tour</code> — FK → Tour</li>
-<li><code>start_date</code>, <code>end_date</code> — выбранные даты поездки</li>
-<li><code>created_at</code> — дата создания заявки</li>
-<li><code>is_confirmed</code> — подтверждение администратором (по умолчанию <code>False</code>)</li>
+<li>price-list item: name, specialty, price</li>
 </ul>
-<p>При изменении дат пользователем флаг <code>is_confirmed</code> сбрасывается — требуется повторное подтверждение.</p>
-<h3 id="review">Review</h3>
-<p>Отзыв о туре.</p>
+<h3 id="patient">Patient</h3>
 <ul>
-<li><code>user</code> — автор</li>
-<li><code>tour</code> — тур</li>
-<li><code>text</code> — текст комментария</li>
-<li><code>rating</code> — рейтинг 1–10</li>
-<li><code>start_date</code>, <code>end_date</code> — даты тура (подставляются из тура при создании)</li>
-<li><code>created_at</code> — время публикации</li>
+<li>medical card: FIO, birth date, gender, phone, address, passport, card_number</li>
+</ul>
+<h3 id="appointment">Appointment</h3>
+<ul>
+<li>patient, doctor, cabinet, service</li>
+<li>visited_at, diagnosis, condition, recommendations</li>
+<li>cost (copied from service), <code>is_paid</code></li>
 </ul>
 <hr />
-<h2 id="api-">API-интерфейсы</h2>
-<p>Базовый префикс: <code>/api/</code></p>
+<h2 id="auth-djoser">Auth (Djoser)</h2>
 <table>
 <thead>
 <tr>
-<th>Метод</th>
+<th>Method</th>
 <th>URL</th>
-<th>Доступ</th>
-<th>Назначение</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>POST</td>
-<td><code>/register/</code></td>
-<td>все</td>
-<td>регистрация</td>
+<td><code>/api/auth/users/</code></td>
+<td>register</td>
 </tr>
 <tr>
 <td>POST</td>
-<td><code>/login/</code></td>
-<td>все</td>
-<td>получение токена</td>
+<td><code>/api/auth/token/login/</code></td>
+<td>get token (<code>auth_token</code>)</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/me/</code></td>
-<td>auth</td>
-<td>текущий пользователь (<code>is_staff</code>)</td>
+<td><code>/api/auth/users/me/</code></td>
+<td>current user</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/tours/</code></td>
-<td>все</td>
-<td>список туров (поиск, фильтры, пагинация)</td>
+<td><code>/api/me/</code></td>
+<td>same profile via clinic app</td>
 </tr>
+</tbody>
+</table>
+<p>Client stores token and sends <code>Authorization: Token &lt;key&gt;</code>.</p>
+<hr />
+<h2 id="api-endpoints">API endpoints</h2>
+<p>Base prefix: <code>/api/</code></p>
+<table>
+<thead>
 <tr>
-<td>GET</td>
-<td><code>/tours/&lt;id&gt;/</code></td>
-<td>все</td>
-<td>карточка тура</td>
+<th>Method</th>
+<th>URL</th>
+<th>Access</th>
+<th>Purpose</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td>GET/POST</td>
-<td><code>/reservations/</code></td>
-<td>auth</td>
-<td>свои бронирования / создать</td>
+<td><code>/doctors/</code></td>
+<td>GET all / POST staff</td>
+<td>doctors</td>
 </tr>
 <tr>
 <td>GET/PATCH/DELETE</td>
-<td><code>/reservations/&lt;id&gt;/</code></td>
-<td>auth</td>
-<td>просмотр, правка дат, удаление</td>
+<td><code>/doctors/&lt;id&gt;/</code></td>
+<td>GET all / write staff</td>
+<td>doctor detail</td>
 </tr>
 <tr>
 <td>GET/POST</td>
-<td><code>/reviews/</code></td>
-<td>GET все / POST auth</td>
-<td>отзывы</td>
+<td><code>/patients/</code></td>
+<td>auth</td>
+<td>patients</td>
 </tr>
 <tr>
-<td>DELETE</td>
-<td><code>/reviews/&lt;id&gt;/</code></td>
-<td>auth (свой)</td>
-<td>удаление отзыва</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><code>/admin/reservations/</code></td>
-<td>staff</td>
-<td>все бронирования</td>
+<td>GET/POST</td>
+<td><code>/appointments/</code></td>
+<td>auth</td>
+<td>visits</td>
 </tr>
 <tr>
 <td>PATCH</td>
-<td><code>/admin/reservations/&lt;id&gt;/confirm/</code></td>
-<td>staff</td>
-<td>подтвердить</td>
+<td><code>/appointments/&lt;id&gt;/pay/</code></td>
+<td>auth</td>
+<td>mark paid</td>
+</tr>
+<tr>
+<td>GET/POST</td>
+<td><code>/services/</code>, <code>/cabinets/</code></td>
+<td>mixed</td>
+<td>dictionaries</td>
 </tr>
 <tr>
 <td>GET</td>
-<td><code>/admin/stats/sold-by-country/</code></td>
+<td><code>/analytics/doctor-patients/?doctor=</code></td>
+<td>auth</td>
+<td>patients of a doctor</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/ent-patients/</code></td>
+<td>auth</td>
+<td>ENT patients born after 1987</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/doctors-by-weekday/?weekday=</code></td>
+<td>auth</td>
+<td>doctors working that day</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/appointments-by-date/</code></td>
+<td>auth</td>
+<td>counts by date</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/costs/</code></td>
+<td>auth</td>
+<td>sums by day and doctor</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/paid-patients/</code></td>
+<td>auth</td>
+<td>patients who paid</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/analytics/doctors-report/?from=&amp;to=</code></td>
 <td>staff</td>
-<td>проданные туры по странам</td>
+<td>income report</td>
 </tr>
 </tbody>
 </table>
-<p>Параметры списка туров:</p>
+<hr />
+<h2 id="frontend-pages">Frontend pages</h2>
+<p>Same layout style as Lab 2 (<code>pages/</code>, <code>components/</code>, <code>context/AuthContext/</code>, SCSS):</p>
 <ul>
-<li><code>search</code> — поиск по названию, описанию, стране, агентству</li>
-<li><code>country</code>, <code>agency</code> — фильтрация</li>
-<li><code>ordering</code> — <code>start_date</code>, <code>price</code>, <code>-price</code>, <code>name</code></li>
-<li><code>page</code> — номер страницы (размер страницы: 4)</li>
+<li><code>/</code> — doctors catalog (search, filter, pagination)</li>
+<li><code>/doctors/:id</code> — doctor card + schedule</li>
+<li><code>/patients</code> — list + create medical card</li>
+<li><code>/appointments</code> — visits, create, pay</li>
+<li><code>/analytics</code> — all analytical queries + staff report</li>
+<li><code>/login</code>, <code>/register</code> — Djoser auth</li>
 </ul>
 <hr />
-<h2 id="_5">Клиентские интерфейсы</h2>
-<h3 id="_6">Главная — список туров (<code>/</code>)</h3>
-<p>Каталог туров с карточками: страна, название, описание, агентство, даты, цена.</p>
-<p>Фильтры и поиск, сортировка, пагинация «‹ / ›».</p>
-<h3 id="toursid">Карточка тура (<code>/tours/:id</code>)</h3>
-<p>Полное описание, условия оплаты, блок бронирования (для авторизованных), список отзывов и форма нового отзыва с рейтингом.</p>
-<h3 id="register-login">Регистрация / вход (<code>/register</code>, <code>/login</code>)</h3>
-<p>Создание аккаунта и получение токена. После входа загружается профиль с флагом <code>is_staff</code>.</p>
-<h3 id="reservations">Мои бронирования (<code>/reservations</code>)</h3>
-<p>Список заявок текущего пользователя. Можно изменить даты (модальное окно) или удалить бронь. После правки дат статус снова «ожидает подтверждения».</p>
-<h3 id="admin">Панель администратора (<code>/admin</code>)</h3>
-<p>Доступна только при <code>user.is_staff</code>. Ссылка в навбаре скрыта для обычных пользователей.</p>
-<p>Возможности:</p>
+<h2 id="practice-31-32">Practice 3.1 / 3.2</h2>
+<p>Folder <code>practice/</code>:</p>
 <ul>
-<li>список всех бронирований с кнопкой «Подтвердить»;</li>
-<li>таблица проданных (подтверждённых) туров: страна, тур, клиент, даты.</li>
+<li><code>practice_3_1/</code> — автомобили из практики 2.1: ORM create / filter / aggregate (<code>orm_queries.py</code>)</li>
+<li><code>practice_3_2/</code> — воины: DRF serializers, CRUD, <code>related_name</code> / m2m</li>
 </ul>
-<h3 id="django-admin-django-admin-admin-backend">Django-admin (<code>/django-admin/</code> или стандартный <code>/admin/</code> backend)</h3>
-<p>Администратор может подтвердить резервирование галочкой <code>is_confirmed</code> в списке бронирований (<code>list_editable</code>).</p>
+<p>See <code>practice/README.md</code>.</p>
 <hr />
-<h2 id="_7">Разграничение прав</h2>
+<h2 id="run">Run</h2>
+<h3 id="backend">Backend</h3>
+<pre><code class="language-bash">source /path/to/.venv/bin/activate
+cd students/k3339/Fedorova_Maria/Lr3/backend
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_clinic
+python manage.py runserver
+</code></pre>
+<p>Demo users after seed:</p>
 <table>
 <thead>
 <tr>
-<th>Действие</th>
-<th>Гость</th>
-<th>Пользователь</th>
-<th>Staff</th>
+<th>Login</th>
+<th>Password</th>
+<th>Role</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Просмотр туров и отзывов</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
+<td><code>admin</code></td>
+<td><code>admin123</code></td>
+<td>admin (full access)</td>
 </tr>
 <tr>
-<td>Бронирование / свои заявки</td>
-<td></td>
-<td>✓</td>
-<td>✓</td>
+<td><code>manager</code></td>
+<td><code>manager123</code></td>
+<td>staff</td>
 </tr>
 <tr>
-<td>Отзывы</td>
-<td></td>
-<td>✓</td>
-<td>✓</td>
+<td><code>doctor</code></td>
+<td><code>doctor123</code></td>
+<td>doctor (ENT Smirnova)</td>
 </tr>
 <tr>
-<td>Панель <code>/admin</code> и таблица продаж</td>
-<td></td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td>Подтверждение в Django-admin</td>
-<td></td>
-<td></td>
-<td>✓</td>
+<td><code>patient</code></td>
+<td><code>patient123</code></td>
+<td>patient (Petrova)</td>
 </tr>
 </tbody>
 </table>
-<p>На клиенте проверка <code>user.is_staff</code> управляет пунктом меню и доступом к <code>/admin</code> (редирект на главную). На API — <code>IsAdminUser</code> / <code>IsAuthenticated</code>.</p>
-<hr />
-<h2 id="_8">Запуск</h2>
-<h3 id="backend">Backend</h3>
-<pre><code class="language-bash">source .venv/bin/activate
-cd students/k3339/Fedorova_Maria/Lr2/backend
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-</code></pre>
+<p>Roles:</p>
+<ul>
+<li><strong>Guest / new user</strong> — doctors catalog; after register can create own medical card</li>
+<li><strong>Patient</strong> — own appointments + pay</li>
+<li><strong>Doctor</strong> — own patients / appointments, create visits (forced to self)</li>
+<li><strong>Admin</strong> — full CRUD + analytics / reports</li>
+</ul>
 <p>API: <code>http://127.0.0.1:8000/api/</code></p>
 <h3 id="frontend">Frontend</h3>
-<pre><code class="language-bash">cd students/k3339/Fedorova_Maria/Lr2/frontend
+<pre><code class="language-bash">cd students/k3339/Fedorova_Maria/Lr3/frontend
 npm install
 npm run dev
 </code></pre>
-<p>Клиент: <code>http://127.0.0.1:5173</code></p>
-<h3 id="mkdocs">Отчёт MkDocs</h3>
-<pre><code class="language-bash">cd students/k3339/Fedorova_Maria/Lr2
+<p>Client: <code>http://127.0.0.1:5173</code></p>
+<h3 id="mkdocs">MkDocs</h3>
+<pre><code class="language-bash">cd students/k3339/Fedorova_Maria/Lr3
 mkdocs serve
-</code></pre></div>
+</code></pre>
+<h3 id="tests">Tests</h3>
+<pre><code class="language-bash">cd backend &amp;&amp; python manage.py test clinic
+cd ../practice/practice_3_1 &amp;&amp; python manage.py test
+cd ../practice_3_2 &amp;&amp; python manage.py test
+</code></pre>
+<hr />
+<h2 id="postgresql-note">PostgreSQL note</h2>
+<p>Tables live in schema <code>clinic</code> inside PostgreSQL database <code>tours_db</code> (user <code>tours_user</code>) so Lab 2 and Lab 3 stay isolated without a separate superuser database. Settings use <code>search_path=clinic,public</code>.</p></div>
             </div>
         </div>
 
@@ -460,5 +479,5 @@ mkdocs serve
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-10-09 10:10:49.110980+00:00
+Build Date UTC : 2026-10-30 11:53:13.481080+00:00
 -->
